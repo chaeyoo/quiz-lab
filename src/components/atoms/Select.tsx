@@ -1,6 +1,7 @@
-import { InputHTMLAttributes, forwardRef } from "react";
+import { SelectHTMLAttributes, forwardRef } from "react";
 
-interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface ISelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+	options: string[];
 	label?: React.ReactNode;
 	isRequired?: boolean;
 	hasError?: boolean;
@@ -8,11 +9,16 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	icon?: React.ReactNode;
 }
 
-export const Input = forwardRef<HTMLInputElement, IInputProps>(
-	function TextField(
-		{ label, isRequired, hasError, helpMessage, icon, ...props },
-		ref
-	) {
+export const Select = forwardRef<HTMLSelectElement, ISelectProps>(
+	function TextField({
+		options,
+		label,
+		isRequired,
+		hasError,
+		helpMessage,
+		icon,
+		...props
+	}) {
 		return (
 			<>
 				{label ? (
@@ -25,12 +31,15 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
 						{label}
 					</label>
 				) : null}
-
 				<div className="relative rounded-md shadow-sm">
 					<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 						<span className="text-gray-500 sm:text-sm">{icon}</span>
 					</div>
-					<input ref={ref} {...props} />
+					<select {...props}>
+						{options.map((option) => (
+							<option>{option}</option>
+						))}
+					</select>
 				</div>
 			</>
 		);
