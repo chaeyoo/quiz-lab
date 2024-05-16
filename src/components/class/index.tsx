@@ -2,8 +2,9 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { FaPagelines } from "react-icons/fa6";
 import { MdAccessTime, MdCalendarToday } from "react-icons/md";
 import { LuBook } from "react-icons/lu";
-import { Input } from "../atoms/Input";
+
 import { Select } from "../atoms/Select";
+import { Input } from "../atoms/input";
 
 export default function Class() {
 	const age: string[] = ["중1", "중2", "중3", "고1", "고2", "고3"];
