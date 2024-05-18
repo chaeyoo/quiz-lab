@@ -1,3 +1,9 @@
+import ClassLayout from "../class/home/layout";
+
 export default function Quiz() {
-	return <>퀴즈 인덱스</>;
+	return (
+		<ClassLayout>
+			<div>퀴즈</div>
+		</ClassLayout>
+	);
 }

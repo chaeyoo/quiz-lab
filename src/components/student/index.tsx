@@ -1,3 +1,9 @@
+import ClassLayout from "../class/home/layout";
+
 export default function Student() {
-    return <>학생 인덱스</>
+	return (
+		<ClassLayout>
+			<div>클래스 학생관리</div>
+		</ClassLayout>
+	);
 }

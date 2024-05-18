@@ -1,3 +1,9 @@
+import ClassLayout from "../class/home/layout";
+
 export default function Attend() {
-	return <>출석 인덱스</>;
+	return (
+		<ClassLayout>
+			<div>출석관리</div>
+		</ClassLayout>
+	);
 }
