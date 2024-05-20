@@ -20,7 +20,7 @@ export default function ClassLayout({
 }) {
 	const location = useLocation();
 	useEffect(() => {
-		console.log(location);
+		console.log();
 	}, [location]);
 	return (
 		<div className="flex flex-col min-h-screen px-8">
@@ -39,7 +39,7 @@ export default function ClassLayout({
 												key={item.name}
 												href={item.href}
 												className={classNames(
-													location.pathname ===
+													"/" + location.pathname.split('/')[1] ===
 														item.href
 														? "border-b-4 border-green-900  text-green-900 font-bold text-sm  py-1"
 														: "text-green-700 hover:bg-gray-100 text-sm pt-2",
@@ -61,7 +61,7 @@ export default function ClassLayout({
 					</div>
 				</>
 			</Disclosure>
-			{children}
+			<div className="flex-grow h-full">{children}</div>
 			<div className="text-center pb-2">Here ssam Copy right 2024</div>
 		</div>
 	);

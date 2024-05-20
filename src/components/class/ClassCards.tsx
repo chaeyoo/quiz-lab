@@ -1,4 +1,5 @@
 import Card from "../atoms/Card";
+import { FaRegEdit } from "react-icons/fa";
 
 export default function ClassCards() {
 	return (
@@ -11,7 +12,12 @@ export default function ClassCards() {
 					height="h-72"
 				/>
 				<Card
-					title={"클래스 안내"}
+					title={
+						<div className="flex justify-between">
+							<div>클래스 안내</div>
+							<FaRegEdit className="hover:text-green-700" />
+						</div>
+					}
 					content={"클래스 안내"}
 					width="w-3/4"
 					height="h-72"

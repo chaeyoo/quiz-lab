@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ClassCreate from "./components/class/create";
 import ClassInvite from "./components/class/invite";
 import ClassHome from "./components/class/home";
+import StudentInfo from "./components/student/info";
 
 const App: React.FC = () => {
 	return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
 				<Route path="/class/create" element={<ClassCreate />} />
 				<Route path="/class/invite" element={<ClassInvite />} />
 				<Route path="/student" element={<Student />} />
+				<Route path="/student/:id" element={<StudentInfo />} />
 				<Route path="/attend" element={<Attend />} />
 				<Route path="/quiz" element={<Quiz />} />
 			</Routes>
