@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Modal from "../atoms/Modal";
-import ClassLayout from "../class/home/layout";
+import Modal from "../../atoms/Modal";
+import ClassLayout from "../../class/home/layout";
+import InviteModal from "./InviteModal";
 
 export default function Student() {
 	const [modalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -20,10 +21,14 @@ export default function Student() {
 	return (
 		<ClassLayout>
 			{modalOpen ? (
-				<Modal open={modalOpen} toggle={setIsModalOpen} />
+				<Modal
+					content={<InviteModal />}
+					open={modalOpen}
+					toggle={setIsModalOpen}
+				/>
 			) : null}
 			<div className="flex flex-col md:flex-row h-full md:items-start">
-				<div className="md:w-64 flex-shrink-0 border-2 border-gray-200 rounded-lg py-1 mb-3 md:mb-0">
+				<div className="md:w-64 flex-shrink-0 border-2 border-gray-200 rounded-lg py-1 my-9 md:mb-0">
 					<div className="font-bold px-3 py-2">클래스 학생 관리</div>
 					{menu.map((v, idx) => (
 						<div
@@ -34,16 +39,18 @@ export default function Student() {
 						</div>
 					))}
 				</div>
-				<button
-					onClick={() => {
-						setIsModalOpen(!modalOpen);
-					}}
-				>
-					초대
-				</button>
-				<div className="flex flex-col  flex-grow md:w-64 border-2 border-gray-200 rounded-lg py-1 md:ml-2">
+
+				<div className="flex flex-col  flex-grow items-end md:w-64 py-1 md:ml-2">
+					<button
+						className="bg-green-800 bg-opacity-80 px-2 py-1 rounded-md text-yellow-100 text-xs mb-1 hover:bg-900 hover:bg-opacity-70 h-7 w-12"
+						onClick={() => {
+							setIsModalOpen(!modalOpen);
+						}}
+					>
+						초대
+					</button>
 					<table
-						className="min-w-full text-gray-900 md:table "
+						className="min-w-full text-gray-900 md:table border-2 border-gray-200 rounded-xl"
 						style={{ height: "85vh" }}
 					>
 						<thead className="rounded-lg text-left text-sm font-normal">

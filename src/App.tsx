@@ -1,7 +1,7 @@
 import "./App.css";
 
 import DashBoard from "./components/dashboard";
-import Student from "./components/student";
+import Student from "./components/student/list";
 import Attend from "./components/attend";
 import Quiz from "./components/quiz";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
