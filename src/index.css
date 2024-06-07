@@ -9,9 +9,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #252233;
+  color: white
 }
 
+/* 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+@font-face {
+  font-family: "NanumGothic";
+  src: url("./assets//fonts/NanumGothic.ttf") format("truetype");
+}
+
+body {
+  font-family: "NanumGothic";
 }
