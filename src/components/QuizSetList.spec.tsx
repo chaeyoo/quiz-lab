@@ -1,4 +1,3 @@
-
 import { render, screen } from "@testing-library/react";
 import QuizSetList from "./QuizSetList";
 
@@ -13,6 +12,6 @@ describe("퀴즈 세트 목록 페이지", () => {
 	test("퀴즈 세트 목록 컴포넌트 렌더링", () => {
 		const { input, list } = renderComponent();
 		expect(input).not.toBeNull();
-		expect(list).not.toBeNull();
+		expect(list).toBeInTheDocument();
 	});
 });
