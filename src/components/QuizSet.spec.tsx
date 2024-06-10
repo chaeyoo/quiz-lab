@@ -5,7 +5,7 @@ const renderComponent = () => {
 	render(<QuizSet />);
 
 	const quizSet = screen.getByTestId("quiz-set");
-	return { quizSet: quizSet };
+	return { quizSet };
 };
 
 describe("퀴즈 세트 상세 페이지", () => {
