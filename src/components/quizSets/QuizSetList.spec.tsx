@@ -38,9 +38,9 @@ describe("퀴즈 세트 목록 페이지 데이터 있는 경우", () => {
 		expect(input).not.toBeNull();
 		expect(sets).toBeInTheDocument();
 
-		expect(within(set).getByTestId("set-title")).toBeInTheDocument();
+		expect(within(set).getByText("퀴즈세트1")).toBeInTheDocument();
+		expect(within(set).getByText("author1")).toBeInTheDocument();
 		expect(within(set).getByTestId("set-length")).toBeInTheDocument();
-		expect(within(set).getByTestId("set-author")).toBeInTheDocument();
 	});
 
 	test("퀴즈 세트 클릭, useNavigate 호출", () => {
