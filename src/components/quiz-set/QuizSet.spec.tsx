@@ -1,6 +1,7 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { quizSets } from "../../mock/data";
 import QuizSet from "./QuizSet";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -10,7 +11,11 @@ jest.mock("react-router-dom", () => ({
 
 const renderComponent = () => {
 	let quizSet = quizSets[0];
-	render(<QuizSet quizSet={quizSet} />);
+	render(
+		<BrowserRouter>
+			<QuizSet quizSet={quizSet} />
+		</BrowserRouter>
+	);
 	const set = screen.getByTestId("quiz-set");
 	return { set };
 };
@@ -56,5 +61,26 @@ describe("퀴즈 세트 페이지 데이터 있는 경우", () => {
 
 		const wordList = within(set).getByTestId("word-list");
 		expect(wordList).toBeInTheDocument();
+	});
+});
+
+describe("퀴즈 데이터 렌더링", () => {
+	test("퀴즈 데이터 10개 렌더링", () => {
+		const { set } = renderComponent();
+		const wordList = within(set).getByTestId("word-list");
+		const res = within(wordList).getAllByTestId("word");
+		expect(res.length).toBe(10);
+	});
+});
+
+describe("퀴즈 세트 아이콘 기능", () => {
+	test("뒤로가기 아이콘 클릭 시, 퀴즈세트 목록 화면으로 이동", () => {
+		const navigate = useNavigate();
+		const { set } = renderComponent();
+		expect(set).toBeInTheDocument();
+
+		const backBtn = within(set).getByTestId("back-icon");
+		fireEvent.click(backBtn);
+		expect(navigate).toHaveBeenCalledWith("/");
 	});
 });

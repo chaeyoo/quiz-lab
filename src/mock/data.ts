@@ -7,6 +7,18 @@ export const quizSets: IQuizSet[] = [
 		length: 30,
 		author: "author1",
 		createdAt: "2024-06-01",
+		quizes: [
+			{ word: "단어1", mean: "뜻1", seq: 1 },
+			{ word: "단어2", mean: "뜻2", seq: 2 },
+			{ word: "단어3", mean: "뜻3", seq: 3 },
+			{ word: "단어4", mean: "뜻4", seq: 4 },
+			{ word: "단어5", mean: "뜻5", seq: 5 },
+			{ word: "단어6", mean: "뜻6", seq: 6 },
+			{ word: "단어7", mean: "뜻7", seq: 7 },
+			{ word: "단어8", mean: "뜻8", seq: 8 },
+			{ word: "단어9", mean: "뜻9", seq: 9 },
+			{ word: "단어10", mean: "뜻10", seq: 10 },
+		],
 	},
 
 	{
