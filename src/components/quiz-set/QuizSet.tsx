@@ -4,26 +4,14 @@ import { MdCastForEducation } from "react-icons/md";
 import { IoPencilOutline } from "react-icons/io5";
 import { IQuizSet } from "../../types/quiz";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export default function QuizSet({ quizSet }: { quizSet: IQuizSet | null }) {
 	const navigate = useNavigate();
-	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	if (!quizSet) {
 		return <div>존재하지 않는 세트입니다.</div>;
 	}
 	return (
 		<div data-testid="quiz-set" className="mx-16 my-14">
-			{menuOpen && (
-				<div className="fixed top-14 right-14 bg-gray-300 z-999 w-36 h-24 flex flex-col items-center justify-center rounded-md">
-					<div className="p-2 text-black border-b-2 border-blue-900 w-full text-center font-semibold">
-						수정하기
-					</div>
-					<div className="p-2 text-black border-blue-900 w-full text-center font-semibold">
-						삭제하기
-					</div>
-				</div>
-			)}
 			<div data-testid="header" className="flex flex-row justify-between mb-7">
 				<FaArrowLeftLong
 					size={25}
@@ -32,13 +20,7 @@ export default function QuizSet({ quizSet }: { quizSet: IQuizSet | null }) {
 						navigate(`/`);
 					}}
 				/>
-				<BsThreeDots
-					size={25}
-					data-testid="menu-icon"
-					onClick={() => {
-						setMenuOpen(true);
-					}}
-				/>
+				<BsThreeDots size={25} data-testid="menu-icon" />
 			</div>
 			<div data-testId="intro">
 				<div className="text-2xl font-semibold mb-5">{quizSet.name}</div>
@@ -59,7 +41,6 @@ export default function QuizSet({ quizSet }: { quizSet: IQuizSet | null }) {
 					학습하기
 				</div>
 			</div>
-
 			<div data-testid="word-list">
 				<div className="mb-3 text-sm font-semibold">단어</div>
 				{quizSet.quizes &&

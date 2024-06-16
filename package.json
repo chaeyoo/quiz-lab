@@ -10,6 +10,7 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
     "@types/react-router-dom": "^5.3.3",
+    "firebase": "^10.12.2",
     "init": "^0.1.2",
     "install": "^0.13.0",
     "npm": "^10.8.0",
