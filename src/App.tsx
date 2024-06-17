@@ -9,7 +9,7 @@ const App: React.FC = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<QuizSetList quizSets={quizSets} />} />
+				<Route path="/" element={<QuizSetList />} />
 				<Route path="/quiz/:id" element={<QuizSet quizSet={qiuzSet} />} />
 			</Routes>
 		</BrowserRouter>

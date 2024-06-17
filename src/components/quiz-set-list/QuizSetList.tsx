@@ -6,7 +6,7 @@ import { getQuizSetList } from "../../remote/quizes";
 import { useCallback } from "react";
 import { flatten } from "lodash";
 
-export default function QuizSetList({ quizSets }: { quizSets: IQuizSet[] }) {
+export default function QuizSetList() {
 	const navigate = useNavigate();
 	const {
 		data,
@@ -41,7 +41,7 @@ export default function QuizSetList({ quizSets }: { quizSets: IQuizSet[] }) {
 					placeholder="세트 필터링"
 				/>
 				<div data-testid="quiz-sets">
-					{(!quizSets || quizSets.length === 0) && <>비어있음</>}
+					{(!quizSetList || quizSetList.length === 0) && <>비어있음</>}
 					{/* {quizSets &&
 						quizSets.length > 0 &&
 						quizSets.map((set, idx) => (
@@ -71,11 +71,11 @@ export default function QuizSetList({ quizSets }: { quizSets: IQuizSet[] }) {
 							</li>
 						))} */}
 					<InfiniteScroll
-						dataLength={quizSets.length}
+						dataLength={quizSetList.length}
 						hasMore={hasNextPage}
 						loader={<>Loading...</>}
 						next={loadMore}
-						scrollThreshold={"600px"}
+						scrollThreshold={"20px"}
 					>
 						{quizSetList.map((v: IQuizSet, idx: number) => (
 							<li
