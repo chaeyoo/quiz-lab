@@ -76,10 +76,11 @@ export default function QuizSetList() {
 						loader={<>Loading...</>}
 						next={loadMore}
 						scrollThreshold={"20px"}
+						data-testid="infinite-scroll"
 					>
 						{quizSetList.map((v: IQuizSet, idx: number) => (
 							<li
-								className="list-none mb-3 rounded-lg p-5 border-2 border-gray-400 border-opacity-50"
+								className="list-none mb-3 rounded-lg p-5 border-2 border-gray-400 border-opacity-50 hover:cursor-pointer"
 								key={v.id}
 								data-testid="set-list"
 								onClick={() => {
