@@ -4,4 +4,11 @@ export interface IQuizSet {
 	length: number;
 	author: string;
 	createdAt: string;
+	quizes: IQuiz[];
+}
+
+export interface IQuiz {
+	word: string;
+	mean: string;
+	seq: number;
 }

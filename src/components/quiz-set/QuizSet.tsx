@@ -4,9 +4,11 @@ import { MdCastForEducation } from "react-icons/md";
 import { IoPencilOutline } from "react-icons/io5";
 import { IQuizSet } from "../../types/quiz";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function QuizSet({ quizSet }: { quizSet: IQuizSet | null }) {
 	const navigate = useNavigate();
+	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	if (!quizSet) {
 		return <div>존재하지 않는 세트입니다.</div>;
 	}
@@ -54,8 +56,7 @@ export default function QuizSet({ quizSet }: { quizSet: IQuizSet | null }) {
 							<div className="mb-5">{quiz.word}</div>
 							<div>{quiz.mean}</div>
 						</div>
-					))}
-			</div>
+					))}			</div>
 		</div>
 	);
 }
