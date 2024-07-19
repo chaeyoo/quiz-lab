@@ -1,27 +1,26 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
-const REACT_APP_SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
-const supabase = createClient(
-	SUPABASE_URL!,
-	REACT_APP_SUPABASE_ANON_KEY!
-);
+import { fetchQuizSets } from "../../api/quiz";
 
 export default function QuizSetList() {
 	const [quizSets, setQuizSets] = useState([]);
 
-	async function getQuizSets() {
-		const { data }: any = await supabase.from("quiz_set").select();
-		setQuizSets(data);
-	}
+	useEffect(() => {
+		async function getQuizSets() {
+			try {
+				const data = await fetchQuizSets();
+				setQuizSets(data);
+			} catch (error) {
+				console.error("Error in QuizSetList:", error);
+			}
+		}
+
+		getQuizSets();
+	}, []);
 
 	useEffect(() => {
 		console.log(quizSets);
 	}, [quizSets]);
-	useEffect(() => {
-		getQuizSets();
-	}, []);
 
 	return (
 		<div className="mx-16 my-14">
