@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { quizSets } from "../../mock/data";
-import QuizSet from "./QuizSet";
+import QuizSet from ".";
 import { BrowserRouter, useNavigate } from "react-router-dom";
 
 const mockedUsedNavigate = jest.fn();
@@ -10,10 +9,8 @@ jest.mock("react-router-dom", () => ({
 }));
 
 const renderComponent = () => {
-	let quizSet = quizSets[0];
 	render(
 		<BrowserRouter>
-			<QuizSet quizSet={quizSet} />
 		</BrowserRouter>
 	);
 	const set = screen.getByTestId("quiz-set");
@@ -21,7 +18,7 @@ const renderComponent = () => {
 };
 describe("퀴즈 세트 페이지 데이터 없는 경우", () => {
 	test("퀴즈 데이터 없는 경우, 안내 문구 노출", () => {
-		render(<QuizSet quizSet={null} />);
+		render(<QuizSet  />);
 		expect(screen.getByText(/존재하지 않는 세트/i)).toBeInTheDocument();
 	});
 });

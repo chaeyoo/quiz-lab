@@ -1,14 +1,19 @@
 export interface IQuizSet {
 	id: number;
 	name: string;
-	length: number;
-	author: string;
-	createdAt: string;
-	quizes: IQuiz[];
+	user: IUser;
+	created_at: string;
+	modified_at: string;
+	quiz?: IQuiz[];
+}
+
+export interface IUser {
+	nick_name: string;
 }
 
 export interface IQuiz {
 	word: string;
-	mean: string;
+	meaning: string;
 	seq: number;
+	star: boolean;
 }

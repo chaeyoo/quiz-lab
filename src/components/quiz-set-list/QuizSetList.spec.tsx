@@ -2,7 +2,7 @@ import {
 render,
 	screen,
 } from "@testing-library/react";
-import QuizSetList from "./QuizSetList";
+import QuizSetList from ".";
 
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
