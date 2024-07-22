@@ -1,32 +1,40 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchQuizSets } from "../../api/quiz";
 import { IQuizSet } from "../../types/quiz";
 import { useNavigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
 import { convertStr } from "../../lib/convertStr";
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
-const REACT_APP_SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
-const supabase = createClient(SUPABASE_URL!, REACT_APP_SUPABASE_ANON_KEY!);
+import { debounce } from "../../lib/debounce";
+// import { createClient } from "@supabase/supabase-js";
+// import { convertStr } from "../../lib/convertStr";
+// const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+// const REACT_APP_SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
+// const supabase = createClient(SUPABASE_URL!, REACT_APP_SUPABASE_ANON_KEY!);
 export default function QuizSetList() {
 	const [quizSets, setQuizSets] = useState<IQuizSet[] | []>([]);
 	const navigate = useNavigate();
-	useEffect(() => {
-		async function getQuizSets() {
-			const { data, error } = await supabase
-				.from("quiz_set")
-				.select(
-					`
-				id,
-				name,
-				user (nick_name),
-				quiz ( id, word, meaning, star)
-			  `
-				)
-				.eq("id", 1);
-			console.log(data, '단건');
-		}
-		getQuizSets();
-	}, []);
+	const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const data = await fetchQuizSets(convertStr(e.target.value));
+		setQuizSets(data);
+	};
+
+	const handleChangeKeyWord = debounce<typeof onChange>(onChange, 700);
+	// useEffect(() => {
+	// 	async function getQuizSets() {
+	// 		const { data, error } = await supabase
+	// 			.from("quiz_set")
+	// 			.select(
+	// 				`
+	// 			id,
+	// 			name,
+	// 			user (nick_name),
+	// 			quiz ( id, word, meaning, star)
+	// 		  `
+	// 			)
+	// 			.eq("id", 1);
+	// 		console.log(data, '단건');
+	// 	}
+	// 	getQuizSets();
+	// }, []);
 
 	useEffect(() => {
 		console.log(quizSets);
@@ -56,10 +64,7 @@ export default function QuizSetList() {
 				<input
 					className="w-full bg-inherit mb-5 p-2 border-b-2 focus:border-b-4 focus:outline-none "
 					placeholder="세트 필터링"
-					onChange={async (e) => {
-						const data = await fetchQuizSets(convertStr(e.target.value));
-						setQuizSets(data);
-					}}
+					onChange={handleChangeKeyWord}
 				/>
 			</div>
 
