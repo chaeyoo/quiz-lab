@@ -59,10 +59,10 @@ export default function QuizSetList() {
 
 	return (
 		<div className="mx-5 my-14 min-w-[300px]">
-			<h1 className="text-4xl font-extrabold mb-7">퀴즈랩</h1>
+			<h1 className="text-4xl font-extrabold mb-7 ">퀴즈랩</h1>
 			<div>
 				<input
-					className="w-full bg-inherit mb-5 p-2 border-b-2 focus:border-b-4 focus:outline-none "
+					className="w-full bg-inherit mb-5 p-2 border-b-_light-gray border-b-2 focus:border-b-4 focus:outline-none bg-_navy placeholder:text-_small-gray"
 					placeholder="세트 필터링"
 					onChange={handleChangeKeyWord}
 				/>
@@ -73,7 +73,7 @@ export default function QuizSetList() {
 					quizSets.map((quizSet, idx) => (
 						<div
 							key={idx}
-							className="border-gray-700 border-2  rounded-2xl p-4 mb-4"
+							className="border-gray-700 border-2  rounded-2xl p-4 mb-4 border-_gray"
 							onClick={() => {
 								navigate(`/${quizSet.id}`);
 							}}
