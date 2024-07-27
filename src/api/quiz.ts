@@ -5,7 +5,7 @@ export async function fetchQuizSets(query?: string) {
 	try {
 		let str = query ? "&name=ilike.%25" + query + "%25" : "";
 		const response = await fetch(
-			`${SUPABASE_URL}/rest/v1/quiz_set?select=id%2Cname%2Cuser%28nick_name%29%2Cquiz%28id%2Cword%29${str}`,
+			`${SUPABASE_URL}/rest/v1/quiz_set?select=id%2Cname%2Ccreated_at%2Cuser%28nick_name%29%2Cquiz%28id%2Cword%29${str}`,
 			{
 				headers: {
 					"Content-Type": "application/json",

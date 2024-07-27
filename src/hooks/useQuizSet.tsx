@@ -10,7 +10,5 @@ export default function useQuizSet(id: number) {
 			suspense: true,
 		}
 	);
-	console.log(data, "dkdkdkdk");
-
 	return { data, isLoading, error };
 }
