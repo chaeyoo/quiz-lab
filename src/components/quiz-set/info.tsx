@@ -35,12 +35,12 @@ export default function QuizSetInfo({ id }: { id: number }) {
 
 			<div className="mb-7" data-testid="quiz-study">
 				<div className="bg-slate-700 p-5 my-3 rounded-xl flex  bg-_medium-gray items-center">
-					<MdCastForEducation className="mr-3" />
+					<MdCastForEducation className="mr-3 text-_purple" />
 					낱말카드
 				</div>
 
 				<div className="bg-slate-700 p-5 my-3 rounded-xl flex  bg-_medium-gray  items-center">
-					<IoPencilOutline className="mr-3" />
+					<IoPencilOutline className="mr-3 text-_purple" />
 					학습하기
 				</div>
 			</div>
@@ -51,7 +51,6 @@ export default function QuizSetInfo({ id }: { id: number }) {
 						<div key={quiz.seq} className="bg-_medium-gray p-5 my-3 rounded-xl">
 							<div className="flex justify-between">
 								<div className="mb-3 text-lg font-semibold">{quiz.word}</div>
-								<div>{quiz.star ? "⭐" : ""}</div>
 							</div>
 							<div>{quiz.meaning}</div>
 						</div>

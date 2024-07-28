@@ -37,7 +37,6 @@ export default function List({ query = "" }: { query: string }) {
 	}
 	const { sortedYearMonth, grouped } = setQuizSetList(data);
 
-    console.log(grouped, "????")
 	return (
 		<div>
 			{sortedYearMonth?.map((group, idx) => (
