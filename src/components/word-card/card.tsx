@@ -1,14 +1,17 @@
 import "./card.css";
 import { useNavigate } from "react-router-dom";
 import useQuizSet from "../../hooks/useQuizSet";
-import { IQuizSet } from "../../types/quiz";
+import { IQuiz, IQuizSet } from "../../types/quiz";
 import { FaXmark } from "react-icons/fa6";
 import { PiGearSixDuotone } from "react-icons/pi";
 import { useRef, useState } from "react";
 export default function Card({ id }: { id: number }) {
 	const navigate = useNavigate();
 	const { data } = useQuizSet(id);
+	const quizSet: IQuizSet = data![0];
 	const [idx, setIdx] = useState<number>(0);
+	const quizes = quizSet?.quiz;
+	const [quiz, setQuiz] = useState<IQuiz>(quizes![idx]);
 	const [studying, setStudying] = useState<number>(0);
 	const [complete, setComplete] = useState<number>(0);
 
@@ -28,22 +31,27 @@ export default function Card({ id }: { id: number }) {
 			// 스와이프 거리 조정
 			if (diffX > 0) {
 				console.log("스와이프 왼쪽");
-				alert("스와이프 왼쪽");
+				setQuiz(quizes![idx + 1]);
+				setIdx((idx) => idx + 1);
+				setStudying((num) => num + 1);
+				// alert("스와이프 왼쪽");
 			} else {
+				setQuiz(quizes![idx + 1]);
+				setIdx((idx) => idx + 1);
 				console.log("스와이프 오른쪽");
-				alert("스와이프 오른쪽");
+				// alert("스와이프 오른쪽");
+				setComplete((num) => num + 1);
 			}
 		}
 	};
-	const quizSet: IQuizSet = data[0];
-	const quiz = quizSet?.quiz && quizSet?.quiz[idx];
+
 	return (
 		<div>
 			<div
 				data-testId="header"
 				className="flex justify-between items-center mx-5 my-2 "
 			>
-				<FaXmark className="text-2xl" />
+				<FaXmark className="text-2xl" onClick={() => navigate(`/${id}`)} />
 				<div className="font-semibold tracking-widest">{`${idx + 1}/${
 					quizSet.quiz?.length
 				}`}</div>
