@@ -4,6 +4,7 @@ import { IoPencilOutline } from "react-icons/io5";
 import { IQuizSet } from "../../types/quiz";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import NoDataInteractive from "../no-data";
 
 export default function QuizSetInfo({ id }: { id: number }) {
   const navigate = useNavigate();
@@ -47,14 +48,24 @@ export default function QuizSetInfo({ id }: { id: number }) {
       <div data-testid="word-list">
         <div className="mb-3 text-sm font-semibold">단어</div>
         <div>
-          {quizSet.quiz?.map((quiz) => (
-            <div key={quiz.seq} className="bg-_medium-gray p-5 my-3 rounded-xl">
-              <div className="flex justify-between">
-                <div className="mb-3 text-lg font-semibold">{quiz.word}</div>
+          {quizSet.quiz &&
+            quizSet.quiz.length > 0 &&
+            quizSet.quiz?.map((quiz) => (
+              <div
+                key={quiz.seq}
+                className="bg-_medium-gray p-5 my-3 rounded-xl"
+              >
+                <div className="flex justify-between">
+                  <div className="mb-3 text-lg font-semibold">{quiz.word}</div>
+                </div>
+                <div>{quiz.meaning}</div>
               </div>
-              <div>{quiz.meaning}</div>
+            ))}
+          {quizSet.quiz && quizSet.quiz.length === 0 && (
+            <div>
+              <NoDataInteractive />
             </div>
-          ))}
+          )}
         </div>
       </div>
     </>

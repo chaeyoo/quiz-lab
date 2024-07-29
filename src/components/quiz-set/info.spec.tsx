@@ -1,10 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import QuizSetInfo from "./info";
 import { IQuizSet } from "../../types/quiz";
 import useQuizSet from "../../hooks/useQuizSet";
 import { useNavigate } from "react-router-dom";
-
+import { QueryClient, QueryClientProvider } from "react-query";
+import NoDataInteractive from "../no-data";
+const queryClient = new QueryClient();
 jest.mock("../../hooks/useQuizSet", () => ({
   __esModule: true,
   default: jest.fn(),
@@ -14,6 +16,16 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: jest.fn(),
 }));
+
+const renderComponent = (id: number, quizSet: IQuizSet) => {
+  render(
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <QuizSetInfo id={id} />
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
 describe("QuizSetInfo Component Tests", () => {
   test("should render nothing when quiz set data is not available", () => {
@@ -93,5 +105,45 @@ describe("QuizSetInfo Component Tests", () => {
 
     fireEvent.click(screen.getByTestId("back-icon"));
     expect(mockNavigate).toHaveBeenCalledWith(`/`);
+  });
+
+  test("should render NoDataInteractive when quizSet.quiz is empty", async () => {
+    const mockQuizSet: IQuizSet = {
+      id: 1,
+      name: "Sample Quiz Set",
+      user: { nick_name: "User1" },
+      quiz: [],
+      created_at: "2024-07-28T00:00:00Z",
+      modified_at: "2024-07-28T00:00:00Z",
+    };
+
+    (useQuizSet as jest.Mock).mockReturnValue({
+      data: [mockQuizSet],
+      isLoading: false,
+      error: null,
+    });
+
+    renderComponent(1, mockQuizSet);
+    expect(screen.getByText("비어 있음")).toBeInTheDocument();
+  });
+
+  test("should not render NoDataInteractive when quizSet.quiz has data", async () => {
+    const mockQuizSet: IQuizSet = {
+      id: 1,
+      name: "Sample Quiz Set",
+      user: { nick_name: "User1" },
+      quiz: [{ seq: 1, word: "word1", meaning: "meaning1", star: true }],
+      created_at: "2024-07-28T00:00:00Z",
+      modified_at: "2024-07-28T00:00:00Z",
+    };
+
+    (useQuizSet as jest.Mock).mockReturnValue({
+      data: [mockQuizSet],
+      isLoading: false,
+      error: null,
+    });
+
+    renderComponent(1, mockQuizSet);
+    expect(screen.queryByText("비어 있음")).toBeNull();
   });
 });
