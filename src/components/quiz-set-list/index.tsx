@@ -12,7 +12,7 @@ export default function QuizSetList() {
 
   const handleChangeKeyWord = debounce<typeof onChange>(onChange, 700);
   return (
-    <div className="mx-5 my-14 min-w-[300px]">
+    <div className="mx-5 my-10 min-w-[300px]">
       <h1 className="text-4xl font-extrabold mb-7 ">Quizlab</h1>
       <div>
         <input

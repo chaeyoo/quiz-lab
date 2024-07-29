@@ -35,7 +35,9 @@ export default function QuizSetInfo({ id }: { id: number }) {
       </div>
 
       <div className="mb-7" data-testid="quiz-study">
-        <div className="bg-slate-700 p-5 my-3 rounded-xl flex  bg-_medium-gray items-center">
+        <div className="bg-slate-700 p-5 my-3 rounded-xl flex  bg-_medium-gray items-center" onClick={() => {
+          navigate(`/${id}/card`)
+        }}>
           <MdCastForEducation className="mr-3 text-_purple" />
           낱말카드
         </div>
