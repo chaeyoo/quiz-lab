@@ -1,53 +1,50 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import QuizSet from ".";
+
+// QueryClient 인스턴스 생성
 const queryClient = new QueryClient();
-const mockedUsedNavigate = jest.fn();
-jest.mock("react-router-dom", () => ({
-	...jest.requireActual("react-router-dom"),
-	useNavigate: () => mockedUsedNavigate,
+
+// useParams 모킹 설정
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: jest.fn(),
 }));
 
+// 모킹된 컴포넌트
 jest.mock("./info", () => () => <div>QuizSetInfo Component</div>);
 jest.mock("./skeleton", () => () => <div>QuizSetSkeleton</div>);
 
-beforeEach(() => {
-	jest.useFakeTimers();
-});
-
-afterEach(() => {
-	jest.runOnlyPendingTimers();
-	jest.useRealTimers();
-});
-
-describe("QuizSetList page", () => {
-	test("render quiz set component", () => {
-		render(
-			<QueryClientProvider client={queryClient}>
-				<BrowserRouter>
-					<QuizSet />
-				</BrowserRouter>
-			</QueryClientProvider>
-		);
-
-		expect(screen.getByText("error")).toBeInTheDocument();
-	});
-});
-
 describe("QuizSet Component", () => {
-	test("renders QuizSet with provided id", async () => {
-		render(
-			<QueryClientProvider client={queryClient}>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/:id" element={<QuizSet />} />
-					</Routes>
-				</BrowserRouter>
-			</QueryClientProvider>
-		);
+  test("renders QuizSet component with id parameter", async () => {
+    require('react-router-dom').useParams.mockReturnValue({ id: "123" });
 
-		// Mock URL to simulate navigation
-		window.history.pushState({}, "Test page", "/1");
-	});
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <QuizSet />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    // 요소를 찾기 위해 findByTestId 사용
+    const quizSetElement = await screen.findByTestId("quiz-set");
+    expect(quizSetElement).toBeInTheDocument();
+  });
+
+  test("renders error when id parameter is missing", async () => {
+    require('react-router-dom').useParams.mockReturnValue({ id: undefined });
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <QuizSet />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    // 'error' 텍스트를 찾기 위해 findByText 사용
+    const errorElement = await screen.findByText("error");
+    expect(errorElement).toBeInTheDocument();
+  });
 });
