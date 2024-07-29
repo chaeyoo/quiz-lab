@@ -7,76 +7,80 @@ import { convertStr } from "../../lib/convertStr";
 import { debounce } from "lodash";
 import { Suspense } from "react";
 import QuizSetsSkeleton from "./skeleton";
+
 const queryClient = new QueryClient();
 const renderComponent = () => {
-	render(
-		<QueryClientProvider client={queryClient}>
-			<BrowserRouter>
-				<QuizSetList />
-			</BrowserRouter>
-		</QueryClientProvider>
-	);
+  render(
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <QuizSetList />
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
 
-	const input = screen.getByPlaceholderText("세트 필터링");
-
-	return { input };
+  const input = screen.getByPlaceholderText("세트 필터링");
+  return { input };
 };
 
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
-	...jest.requireActual("react-router-dom"),
-	useNavigate: () => mockedUsedNavigate,
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
+jest.mock("../../api/quiz", () => ({
+  fetchQuizSets: jest.fn(),
 }));
 
 jest.mock("../../lib/convertStr", () => ({
-	convertStr: jest.fn((str) => encodeURIComponent(str).replace(/%20/g, "+")),
+  convertStr: jest.fn((str) => encodeURIComponent(str).replace(/%20/g, "+")),
 }));
 
 jest.mock("./list", () => ({ query }: { query: string }) => (
-	<div>{`List Component: ${query}`}</div>
+  <div>{`List Component: ${query}`}</div>
 ));
 
 beforeEach(() => {
-	jest.useFakeTimers();
+  jest.useFakeTimers();
 });
 
 afterEach(() => {
-	jest.runOnlyPendingTimers();
-	jest.useRealTimers();
+  jest.runOnlyPendingTimers();
+  jest.useRealTimers();
 });
 
-describe("QuizSetList page", () => {
-	test("render QuizSetList test", () => {
-		const { input } = renderComponent();
-		expect(screen.getByText(/Quizlab/i)).toBeInTheDocument();
-		expect(input).toBeInTheDocument();
-	});
+describe("QuizSetList Page Tests", () => {
+  test("should render the QuizSetList page with header and input field", () => {
+    const { input } = renderComponent();
+    expect(screen.getByText(/Quizlab/i)).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
+  });
 
-	test("function call after input change", async () => {
-		const { input } = renderComponent();
-		fireEvent.change(input, { target: { value: "퀴즈세트" } });
-		jest.advanceTimersByTime(700);
+  test("should call convertStr function when input value changes and debounce delay is met", async () => {
+    const { input } = renderComponent();
+    fireEvent.change(input, { target: { value: "퀴즈세트" } });
+    jest.advanceTimersByTime(700);
 
-		await waitFor(() => expect(convertStr).toHaveBeenCalledWith("퀴즈세트"));
-	});
+    await waitFor(() => expect(convertStr).toHaveBeenCalledWith("퀴즈세트"));
+  });
 
-	test("debounce function delays execution", () => {
-		const mockCallback = jest.fn();
-		const debouncedFunction = debounce(mockCallback, 700);
+  test("should delay the execution of debounced function until after the specified delay", () => {
+    const mockCallback = jest.fn();
+    const debouncedFunction = debounce(mockCallback, 700);
 
-		debouncedFunction();
-		expect(mockCallback).not.toHaveBeenCalled();
+    debouncedFunction();
+    expect(mockCallback).not.toHaveBeenCalled();
 
-		jest.advanceTimersByTime(700);
-		expect(mockCallback).toHaveBeenCalled();
-	});
+    jest.advanceTimersByTime(700);
+    expect(mockCallback).toHaveBeenCalled();
+  });
 
-	test("shows skeleton loader while fetching data", () => {
-		render(
-			<Suspense fallback={<QuizSetsSkeleton />}>
-				<QuizSetList />
-			</Suspense>
-		);
-		expect(screen.getByText(/List Component/i)).toBeInTheDocument();
-	});
+  test("should display skeleton loader while data is being fetched", () => {
+    render(
+      <Suspense fallback={<QuizSetsSkeleton />}>
+        <QuizSetList />
+      </Suspense>
+    );
+    expect(screen.getByText(/List Component/i)).toBeInTheDocument();
+  });
 });

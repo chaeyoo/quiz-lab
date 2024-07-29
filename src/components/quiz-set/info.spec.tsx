@@ -15,8 +15,8 @@ jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
 }));
 
-describe("QuizSetInfo Component", () => {
-  test("returns null when data is not available", () => {
+describe("QuizSetInfo Component Tests", () => {
+  test("should render nothing when quiz set data is not available", () => {
     (useQuizSet as jest.Mock).mockReturnValue({
       data: null,
       isLoading: false,
@@ -32,7 +32,7 @@ describe("QuizSetInfo Component", () => {
     expect(screen.queryByTestId("header")).toBeNull();
   });
 
-  test("renders quiz set info when data is available", async () => {
+  test("should display quiz set information when data is successfully fetched", async () => {
     const mockQuizSet: IQuizSet = {
       name: "Sample Quiz Set",
       user: { nick_name: "User1" },
@@ -66,7 +66,7 @@ describe("QuizSetInfo Component", () => {
     expect(screen.getByText("meaning2")).toBeInTheDocument();
   });
 
-  test("calls navigate when back icon is clicked", () => {
+  test("should navigate to the home page when the back icon is clicked", () => {
     const mockNavigate = jest.fn();
     (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
 
