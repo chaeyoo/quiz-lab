@@ -23,3 +23,46 @@
 .backface-hidden {
   backface-visibility: hidden;
 }
+
+
+
+/* 애니메이션을 위한 추가 스타일 */
+.card {
+  transition: transform 0.5s ease-in-out;
+}
+
+.card-swipe-left {
+  animation: swipe-left 0.5s forwards;
+}
+
+.card-swipe-right {
+  animation: swipe-right 0.5s forwards;
+}
+
+@keyframes swipe-left {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-8deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes swipe-right {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(8deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}

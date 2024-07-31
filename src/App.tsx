@@ -5,6 +5,7 @@ import QuizSet from "./components/quiz-set";
 import QuizSetList from "./components/quiz-set-list";
 import TestComponent from "./components/test";
 import QuizWordCard from "./components/word-card";
+import CardResult from "./components/word-card/result";
 const App: React.FC = () => {
 	return (
 		<BrowserRouter>
@@ -13,6 +14,7 @@ const App: React.FC = () => {
 				<Route path="/:id" element={<QuizSet />} />
 				<Route path="/:id/card" element={<QuizWordCard />} />
 				<Route path="/test" element={<TestComponent />} />
+				<Route path="/card/result" element={<CardResult />} />
 			</Routes>
 		</BrowserRouter>
 	);

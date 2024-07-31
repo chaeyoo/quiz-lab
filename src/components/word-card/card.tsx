@@ -4,7 +4,7 @@ import useQuizSet from "../../hooks/useQuizSet";
 import { IQuiz, IQuizSet } from "../../types/quiz";
 import { FaXmark } from "react-icons/fa6";
 import { PiGearSixDuotone } from "react-icons/pi";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 export default function Card({ id }: { id: number }) {
 	const navigate = useNavigate();
 	const { data } = useQuizSet(id);
@@ -16,7 +16,19 @@ export default function Card({ id }: { id: number }) {
 	const [complete, setComplete] = useState<number>(0);
 
 	const [showMeaning, setShowMeaning] = useState(false);
+	const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
+	const [resetAnimation, setResetAnimation] = useState(false);
 	const startX = useRef(0);
+	useEffect(() => {
+		if (resetAnimation) {
+			const timer = setTimeout(() => {
+				setResetAnimation(false);
+			}, 500); // 애니메이션 지속 시간과 동일해야 합니다.
+
+			return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+		}
+	}, [resetAnimation]);
+
 	if (data == null) {
 		return null;
 	}
@@ -28,23 +40,22 @@ export default function Card({ id }: { id: number }) {
 		const diffX = startX.current - endX;
 
 		if (Math.abs(diffX) > 50) {
-			// 스와이프 거리 조정
-			if (diffX > 0) {
-				console.log("스와이프 왼쪽");
-				setQuiz(quizes![idx + 1]);
-				setIdx((idx) => idx + 1);
-				setStudying((num) => num + 1);
-				// alert("스와이프 왼쪽");
+			const newIndex = idx + 1;
+			if (newIndex >= quizes!.length) {
+				navigate("/card/result");
 			} else {
-				setQuiz(quizes![idx + 1]);
-				setIdx((idx) => idx + 1);
-				console.log("스와이프 오른쪽");
-				// alert("스와이프 오른쪽");
-				setComplete((num) => num + 1);
+				setSwipeDirection(diffX > 0 ? "left" : "right");
+				setQuiz(quizes![newIndex]);
+				setIdx(newIndex);
+				if (diffX > 0) {
+					setStudying((num) => num + 1);
+				} else {
+					setComplete((num) => num + 1);
+				}
+				setResetAnimation(true);
 			}
 		}
 	};
-
 	return (
 		<div>
 			<div
@@ -73,7 +84,13 @@ export default function Card({ id }: { id: number }) {
 			{/* 단어 */}
 			<div className="m-5">
 				<div
-					className="relative w-full h-[615px] perspective-1000 cursor-pointer"
+					className={`relative w-full h-[615px] perspective-1000 cursor-pointer card ${
+						swipeDirection === "left"
+							? "card-swipe-left"
+							: swipeDirection === "right"
+							? "card-swipe-right"
+							: ""
+					} ${resetAnimation ? "card-reset" : ""}`}
 					onClick={() => setShowMeaning(!showMeaning)}
 					onTouchStart={handleTouchStart}
 					onTouchEnd={handleTouchEnd}
