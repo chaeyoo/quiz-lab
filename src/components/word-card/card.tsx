@@ -56,6 +56,8 @@ export default function Card({ id }: { id: number }) {
 			}
 		}
 	};
+
+	const progress = (idx / (quizes?.length || 1)) * 100;
 	return (
 		<div>
 			<div
@@ -70,7 +72,12 @@ export default function Card({ id }: { id: number }) {
 			</div>
 
 			{/* progress bar */}
-			<div className="h-[3px] w-full bg-_light-gray"></div>
+			<div className="relative h-[3px] w-full bg-_light-gray rounded">
+				<div
+					className="absolute h-full bg-_purple rounded transition-width duration-300 ease-in-out"
+					style={{ width: `${progress}%` }}
+				></div>
+			</div>
 
 			<div className="flex justify-between">
 				<div className="text-_red border-_red border-r border-y pl-3 pr-4 py-1 mt-4 rounded-r-3xl">
