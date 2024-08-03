@@ -5,7 +5,6 @@ import { IQuizSet } from "../../types/quiz";
 import useQuizSet from "../../hooks/useQuizSet";
 import { useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import NoDataInteractive from "../no-data";
 const queryClient = new QueryClient();
 jest.mock("../../hooks/useQuizSet", () => ({
   __esModule: true,
@@ -17,7 +16,7 @@ jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
 }));
 
-const renderComponent = (id: number, quizSet: IQuizSet) => {
+const renderComponent = (id: number) => {
   render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -123,7 +122,7 @@ describe("QuizSetInfo Component Tests", () => {
       error: null,
     });
 
-    renderComponent(1, mockQuizSet);
+    renderComponent(1);
     expect(screen.getByText("비어 있음")).toBeInTheDocument();
   });
 
@@ -143,7 +142,7 @@ describe("QuizSetInfo Component Tests", () => {
       error: null,
     });
 
-    renderComponent(1, mockQuizSet);
+    renderComponent(1);
     expect(screen.queryByText("비어 있음")).toBeNull();
   });
 });

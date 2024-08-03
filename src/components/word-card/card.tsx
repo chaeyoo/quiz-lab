@@ -5,6 +5,7 @@ import { IQuiz, IQuizSet } from "../../types/quiz";
 import { FaXmark } from "react-icons/fa6";
 import { PiGearSixDuotone } from "react-icons/pi";
 import { useEffect, useRef, useState } from "react";
+import { useCardStore } from "../../store/useQuizStore";
 export default function Card({ id }: { id: number }) {
 	const navigate = useNavigate();
 	const { data } = useQuizSet(id);
@@ -18,14 +19,16 @@ export default function Card({ id }: { id: number }) {
 	const [showMeaning, setShowMeaning] = useState(false);
 	const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
 	const [resetAnimation, setResetAnimation] = useState(false);
+	const addQuiz = useCardStore((state) => state.add);
+	const list = useCardStore((state) => state.quiz);
 	const startX = useRef(0);
 	useEffect(() => {
 		if (resetAnimation) {
 			const timer = setTimeout(() => {
 				setResetAnimation(false);
-			}, 500); // 애니메이션 지속 시간과 동일해야 합니다.
+			}, 500);
 
-			return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+			return () => clearTimeout(timer);
 		}
 	}, [resetAnimation]);
 
@@ -49,6 +52,7 @@ export default function Card({ id }: { id: number }) {
 				setIdx(newIndex);
 				if (diffX > 0) {
 					setStudying((num) => num + 1);
+					addQuiz(quizes![newIndex]);
 				} else {
 					setComplete((num) => num + 1);
 				}
