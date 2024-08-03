@@ -13,14 +13,14 @@ export default function Card({ id }: { id: number }) {
 	const [idx, setIdx] = useState<number>(0);
 	const quizes = quizSet?.quiz;
 	const [quiz, setQuiz] = useState<IQuiz>(quizes![idx]);
-	const [studying, setStudying] = useState<number>(0);
-	const [complete, setComplete] = useState<number>(0);
-
 	const [showMeaning, setShowMeaning] = useState(false);
 	const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
 	const [resetAnimation, setResetAnimation] = useState(false);
 	const addQuiz = useCardStore((state) => state.add);
-	const list = useCardStore((state) => state.quiz);
+	const known = useCardStore((state) => state.known);
+	const ing = useCardStore((state) => state.ing);
+	const upKnown = useCardStore((state) => state.upKnown);
+	const upIng = useCardStore((state) => state.upIng);
 	const startX = useRef(0);
 	useEffect(() => {
 		if (resetAnimation) {
@@ -44,18 +44,22 @@ export default function Card({ id }: { id: number }) {
 
 		if (Math.abs(diffX) > 50) {
 			const newIndex = idx + 1;
+			if (diffX > 0) {
+				upIng();
+				addQuiz(quizes![idx]);
+			} else {
+				upKnown();
+			}
+			
+
 			if (newIndex >= quizes!.length) {
-				navigate("/card/result");
+				setTimeout(() => {
+					navigate("/card/result");
+				}, 500);
 			} else {
 				setSwipeDirection(diffX > 0 ? "left" : "right");
 				setQuiz(quizes![newIndex]);
 				setIdx(newIndex);
-				if (diffX > 0) {
-					setStudying((num) => num + 1);
-					addQuiz(quizes![newIndex]);
-				} else {
-					setComplete((num) => num + 1);
-				}
 				setResetAnimation(true);
 			}
 		}
@@ -85,17 +89,17 @@ export default function Card({ id }: { id: number }) {
 
 			<div className="flex justify-between">
 				<div className="text-_red border-_red border-r border-y pl-3 pr-4 py-1 mt-4 rounded-r-3xl">
-					{studying}
+					{ing}
 				</div>
 				<div className="text-_green border-_green border-l border-y pr-3 pl-4 py-1 mt-4 rounded-l-3xl">
-					{complete}
+					{known}
 				</div>
 			</div>
 
 			{/* 단어 */}
 			<div className="m-5">
 				<div
-					className={`relative w-full h-[615px] perspective-1000 cursor-pointer card ${
+					className={`relative w-full h-[430px] perspective-1000 cursor-pointer card ${
 						swipeDirection === "left"
 							? "card-swipe-left"
 							: swipeDirection === "right"
