@@ -3,6 +3,7 @@ import BoomIcon from "../../assets/svg/boomIcon";
 import { useCardStore } from "../../store/useQuizStore";
 import ErrorMessage from "./error";
 import { useLocation, useNavigate } from "react-router-dom";
+import PieChart from "./donut-chart";
 
 export default function CardResult() {
 	const navigate = useNavigate();
@@ -49,8 +50,15 @@ export default function CardResult() {
 					</div>
 				</div>
 				<div className="flex items-center justify-evenly px-5 mt-14">
-					<div className="w-2/6 text-5xl font-semibold">
-						{((known / (known + ing)) * 100).toFixed(0)}%
+					<div>
+						<PieChart
+							data={[
+								{ label: "알고 있음", value: known },
+								{ label: "학습 중", value: ing },
+							]}
+							width={100}
+							height={100}
+						/>
 					</div>
 					<div className="w-3/6 font-semibold">
 						<div className=" text-_green flex w-full justify-between mb-5">
