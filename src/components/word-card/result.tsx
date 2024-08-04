@@ -65,10 +65,7 @@ export default function CardResult() {
 					</div>
 				</div>
 			</div>
-			<div className="bg-_purple rounded-md mx-5 text-center py-2 font-semibold mt-auto mb-3">
-				{`${ing} 단어 계속 복습하기`}
-			</div>
-			<div className="border border-l-_light-gray rounded-md mx-5 text-center py-2 font-semibold mt-2  mb-16">
+			<div className="bg-_purple rounded-md mx-5 text-center py-2 font-semibold mt-auto mb-20">
 				학습하기 모드에서 연습하기
 			</div>
 		</div>
