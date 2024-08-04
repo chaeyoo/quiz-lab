@@ -6,12 +6,16 @@ import Quizes from "./quizes";
 export default function Card({ id }: { id: number }) {
 	const { data } = useQuizSet(id);
 
-	const quizSet: IQuizSet = data![0];
+	const quizSet: IQuizSet | null = data ? data[0] : null;
+
+	if (data == null || quizSet == null) {
+		return <>error</>;
+	}
 	const quizes = quizSet?.quiz;
 
-	if (data == null) {
-		return null;
-	}
-
-	return <Quizes id={id} quizes={quizes} />;
+	return (
+		<div data-testId="main">
+			<Quizes id={id} quizes={quizes} />
+		</div>
+	);
 }

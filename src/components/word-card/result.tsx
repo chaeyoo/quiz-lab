@@ -38,10 +38,11 @@ export default function CardResult() {
 			</div>
 
 			<div className="flex-grow">
-				<div className="flex items-center justify-evenly px-5 mt-7">
-					<div className="text-xl font-bold w-4/6 text-center">
+				<div className="flex items-center justify-center px-5 mt-7">
+					<div className="text-xl font-bold w-4/6 ml-3">
 						잘하고 있어요! <br />
-						어려운 단어에 계속 집중하세요!
+						어려운 단어에 계속
+						<br /> 집중하세요!
 					</div>
 					<div className="w-2/6">
 						<BoomIcon className="" />
