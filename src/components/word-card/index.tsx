@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 import Card from "./card";
+import CardSkeleton from "./skeleton";
 
 export default function QuizWordCard() {
 	const { id } = useParams();
@@ -10,7 +11,7 @@ export default function QuizWordCard() {
 	}
 	return (
 		<div data-testid="quiz-set" className="my-10">
-			<Suspense fallback={"낱말카드 생성중..."}>
+			<Suspense fallback={<CardSkeleton />}>
 				<Card id={Number(id)} />
 			</Suspense>
 		</div>

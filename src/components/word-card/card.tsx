@@ -6,6 +6,7 @@ import { FaXmark } from "react-icons/fa6";
 import { PiGearSixDuotone } from "react-icons/pi";
 import { useEffect, useRef, useState } from "react";
 import { useCardStore } from "../../store/useQuizStore";
+
 export default function Card({ id }: { id: number }) {
 	const navigate = useNavigate();
 	const { data } = useQuizSet(id);
@@ -14,30 +15,34 @@ export default function Card({ id }: { id: number }) {
 	const quizes = quizSet?.quiz;
 	const [quiz, setQuiz] = useState<IQuiz>(quizes![idx]);
 	const [showMeaning, setShowMeaning] = useState(false);
-	const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
-	const [resetAnimation, setResetAnimation] = useState(false);
+
 	const addQuiz = useCardStore((state) => state.add);
 	const known = useCardStore((state) => state.known);
 	const ing = useCardStore((state) => state.ing);
 	const upKnown = useCardStore((state) => state.upKnown);
 	const upIng = useCardStore((state) => state.upIng);
+
 	const startX = useRef(0);
+	const [animationClass, setAnimationClass] = useState<string | null>(null);
+
 	useEffect(() => {
-		if (resetAnimation) {
+		if (animationClass) {
 			const timer = setTimeout(() => {
-				setResetAnimation(false);
+				setAnimationClass(null);
 			}, 500);
 
 			return () => clearTimeout(timer);
 		}
-	}, [resetAnimation]);
+	}, [animationClass]);
 
 	if (data == null) {
 		return null;
 	}
+
 	const handleTouchStart = (e: any) => {
 		startX.current = e.touches[0].clientX;
 	};
+
 	const handleTouchEnd = (e: any) => {
 		const endX = e.changedTouches[0].clientX;
 		const diffX = startX.current - endX;
@@ -47,20 +52,19 @@ export default function Card({ id }: { id: number }) {
 			if (diffX > 0) {
 				upIng();
 				addQuiz(quizes![idx]);
+				setAnimationClass("card-swipe-left");
 			} else {
 				upKnown();
+				setAnimationClass("card-swipe-right");
 			}
-			
 
 			if (newIndex >= quizes!.length) {
 				setTimeout(() => {
-					navigate("/card/result");
+					navigate(`/card/result?id=${id}`);
 				}, 500);
 			} else {
-				setSwipeDirection(diffX > 0 ? "left" : "right");
 				setQuiz(quizes![newIndex]);
 				setIdx(newIndex);
-				setResetAnimation(true);
 			}
 		}
 	};
@@ -79,7 +83,6 @@ export default function Card({ id }: { id: number }) {
 				<PiGearSixDuotone className="text-2xl" />
 			</div>
 
-			{/* progress bar */}
 			<div className="relative h-[3px] w-full bg-_light-gray rounded">
 				<div
 					className="absolute h-full bg-_purple rounded transition-width duration-300 ease-in-out"
@@ -100,12 +103,8 @@ export default function Card({ id }: { id: number }) {
 			<div className="m-5">
 				<div
 					className={`relative w-full h-[430px] perspective-1000 cursor-pointer card ${
-						swipeDirection === "left"
-							? "card-swipe-left"
-							: swipeDirection === "right"
-							? "card-swipe-right"
-							: ""
-					} ${resetAnimation ? "card-reset" : ""}`}
+						animationClass || ""
+					}`}
 					onClick={() => setShowMeaning(!showMeaning)}
 					onTouchStart={handleTouchStart}
 					onTouchEnd={handleTouchEnd}

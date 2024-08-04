@@ -8,6 +8,8 @@ interface QuizState {
 	add: (newQuiz: IQuiz) => void;
 	upKnown: () => void;
 	upIng: () => void;
+	resetCount: () => void;
+	clearQuiz: () => void;
 }
 
 export const useCardStore = create<QuizState>()((set) => ({
@@ -26,4 +28,6 @@ export const useCardStore = create<QuizState>()((set) => ({
 		set((state) => ({
 			ing: state.ing + 1,
 		})),
+	resetCount: () => set({ known: 0, ing: 0 }),
+	clearQuiz: () => set({ quiz: [] }),
 }));

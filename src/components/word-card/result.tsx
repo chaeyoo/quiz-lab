@@ -1,23 +1,47 @@
+import { FaXmark } from "react-icons/fa6";
 import BoomIcon from "../../assets/svg/boomIcon";
 import { useCardStore } from "../../store/useQuizStore";
+import ErrorMessage from "./error";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function CardResult() {
+	const navigate = useNavigate();
 	const quiz = useCardStore((state) => state.quiz);
 	const known = useCardStore((state) => state.known);
 	const ing = useCardStore((state) => state.ing);
-
+	const location = useLocation();
+	const queryParams = new URLSearchParams(location.search);
+	const id = queryParams.get("id");
+	const resetCount = useCardStore((state) => state.resetCount);
+	const clearQuiz = useCardStore((state) => state.clearQuiz);
+	if (!known && !ing) {
+		return (
+			<div className="w-full h-full">
+				<ErrorMessage />
+			</div>
+		);
+	}
 	return (
-		<div className="flex flex-col min-h-screen">
-			{" "}
-			{/* 전체 화면 높이를 채우는 flex 컨테이너 */}
+		<div className="flex flex-col min-h-screen min-w-[380px]">
+			<div
+				data-testId="header"
+				className="flex justify-between items-center mx-5 mt-9 "
+			>
+				<FaXmark
+					className="text-2xl"
+					onClick={() => {
+						resetCount();
+						clearQuiz();
+						navigate(`/${id}`);
+					}}
+				/>
+			</div>
+
 			<div className="flex-grow">
-				{" "}
-				{/* 상단의 내용을 flex-grow로 화면을 채우도록 설정 */}
-				<div className="flex items-center justify-evenly px-5 mt-10">
-					<div className="text-xl font-bold w-4/6">
-						잘하고 있어요! 어려운
-						<br />
-						단어에 계속 집중하세요!
+				<div className="flex items-center justify-evenly px-5 mt-7">
+					<div className="text-xl font-bold w-4/6 text-center">
+						잘하고 있어요! <br />
+						어려운 단어에 계속 집중하세요!
 					</div>
 					<div className="w-2/6">
 						<BoomIcon className="" />
@@ -29,19 +53,18 @@ export default function CardResult() {
 					</div>
 					<div className="w-3/6 font-semibold">
 						<div className=" text-_green flex w-full justify-between mb-5">
-							<div>알고 있음</div>{" "}
+							<div>알고 있음</div>
 							<div className="border border-_green px-2 rounded-xl">
-								{known}{" "}
+								{known}
 							</div>
 						</div>
 						<div className="text-_red  flex w-full justify-between">
-							<div>학습 중</div>{" "}
+							<div>학습 중</div>
 							<div className="border border-_red px-2 rounded-xl">{ing} </div>
 						</div>
 					</div>
 				</div>
 			</div>
-			{/* 바닥쪽에 고정된 두 개의 div */}
 			<div className="bg-_purple rounded-md mx-5 text-center py-2 font-semibold mt-auto mb-3">
 				{`${ing} 단어 계속 복습하기`}
 			</div>
