@@ -11,7 +11,7 @@ export default function QuizSet() {
     return <>error</>;
   }
   return (
-    <div data-testid="quiz-set" className="mx-5 my-10">
+    <div data-testid="quiz-set" className="mx-5 mt-5 mb-10">
       <Suspense fallback={<QuizSetSkeleton />}>
         <QuizSetInfo id={Number(id)} />
       </Suspense>

@@ -23,7 +23,7 @@ export default function CardResult() {
 		<div className="flex flex-col min-h-screen min-w-[380px]">
 			<div
 				data-testId="header"
-				className="flex justify-between items-center mx-5 mt-9 "
+				className="flex justify-between items-center mx-5 mt-7 "
 			>
 				<FaXmark
 					className="text-2xl"

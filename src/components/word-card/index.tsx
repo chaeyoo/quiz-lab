@@ -9,7 +9,7 @@ export default function QuizWordCard() {
 		return <>error</>;
 	}
 	return (
-		<div data-testid="word-card" className="my-10">
+		<div data-testid="word-card" className="pt-5">
 			<Suspense fallback={<CardSkeleton />}>
 				<Card id={Number(id)} />
 			</Suspense>
