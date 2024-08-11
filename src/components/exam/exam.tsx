@@ -61,6 +61,7 @@ export default function Exam({ id }: { id: number }) {
 			}, 300);
 		}
 	};
+
 	const handleNext = (event: React.MouseEvent<HTMLDivElement>) => {
 		const clickedWord = (event.currentTarget as HTMLDivElement).getAttribute(
 			"data-word"
