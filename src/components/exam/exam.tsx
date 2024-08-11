@@ -1,4 +1,4 @@
-import { useState, useEffect, EventHandler } from "react";
+import { useState, useEffect } from "react";
 import useQuizSet from "../../hooks/useQuizSet";
 import { IQuizSet } from "../../types/quiz";
 import { getRandomEls, shuffleArray } from "./common";
@@ -6,6 +6,7 @@ import { FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { PiGearSixDuotone } from "react-icons/pi";
 import Modal from "./modal";
+import { useAnsStore } from "../../store/useAnsStore";
 export type modalMsg = {
 	msg: string;
 	word: string;
@@ -26,6 +27,8 @@ export default function Exam({ id }: { id: number }) {
 	const [correct, setCorrect] = useState<boolean>(false);
 	const quizSet: IQuizSet | null = data ? data[0] : null;
 	const navigate = useNavigate();
+	const correctQuiz = useAnsStore((state) => state.correct);
+	const wrongQuiz = useAnsStore((state) => state.wrong);
 	useEffect(() => {
 		if (quizSet) {
 			const words = quizSet.quiz?.map((v) => v.word);
@@ -37,7 +40,7 @@ export default function Exam({ id }: { id: number }) {
 				setRandomWords(shuffleArray(random));
 			}
 		}
-	}, [quizSet, idx]); // quizSet이 변경될 때만 랜덤 단어 목록 업데이트
+	}, [quizSet, idx]);
 
 	if (data == null || quizSet == null) {
 		return <>error</>;
@@ -53,7 +56,9 @@ export default function Exam({ id }: { id: number }) {
 		if (quizes.length > idx + 1) {
 			setIdx(idx + 1);
 		} else {
-			console.log("끝났습니다.");
+			setTimeout(() => {
+				navigate(`/${id}/exam/result`);
+			}, 300);
 		}
 	};
 	const handleNext = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -62,6 +67,7 @@ export default function Exam({ id }: { id: number }) {
 		);
 		if (clickedWord) {
 			if (quizes[idx].word === clickedWord) {
+				correctQuiz(quizes[idx]);
 				setModalMessage({
 					msg: "😆 정확해요!",
 					word: quizes[idx].word,
@@ -70,6 +76,7 @@ export default function Exam({ id }: { id: number }) {
 				});
 				setCorrect(true);
 			} else {
+				wrongQuiz(quizes[idx]);
 				setModalMessage({
 					msg: `😞학습이 필요해요!`,
 					word: quizes[idx].word,
@@ -107,7 +114,6 @@ export default function Exam({ id }: { id: number }) {
 				<div className="mx-4 h-[350px] content-center text-xl">
 					{quizes[idx].meaning}
 				</div>
-				{/* {} */}
 				{randomWords.map((word, index) => (
 					<div
 						className=" mx-4 px-4 py-3 border-2 border-opacity-60 border-_light-gray mb-2 rounded-lg"

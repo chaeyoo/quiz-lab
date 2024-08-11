@@ -20,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, correct }) => {
 	const { msg, word, mean, select } = message;
 	return ReactDOM.createPortal(
 		<div
-			className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center"
+			className="fixed inset-0 bg-_gray bg-opacity-70 flex justify-center items-center"
 			onClick={handleOverlayClick}
 		>
 			<div className=" flex flex-col bg-_medium-gray rounded-lg shadow-lg max-w-sm mx-auto w-[200px]">
@@ -37,8 +37,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, correct }) => {
 				{!correct && (
 					<div className="px-3 py-2">
 						<div className="h-[40px] content-center text-center">{mean}</div>
+						
 						<div className="text-_br-green text-xs font-semibold">정답</div>
 						<div className="h-[40px] text-center">{word}</div>
+
 						<div className="text-_br-red text-xs font-semibold">
 							입력하신 답
 						</div>

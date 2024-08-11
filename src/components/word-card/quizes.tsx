@@ -47,7 +47,7 @@ export default function Quizes({
 
 			if (newIndex >= quizes!.length) {
 				setTimeout(() => {
-					navigate(`/card/result?id=${id}`);
+					navigate(`/${id}/card/result`);
 				}, 500);
 			} else {
 				setQuiz(quizes![newIndex]);

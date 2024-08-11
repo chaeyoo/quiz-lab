@@ -5,9 +5,9 @@ export default function CardSkeleton() {
 				data-testId="header"
 				className="flex justify-between items-center mx-5 my-2 "
 			>
-				<div className="w-6 h-6 bg-_light-gray"></div>
-				<div className="w-20 h-6 bg-_light-gray"></div>
-				<div className="w-6 h-6 bg-_light-gray"></div>
+				<div className="w-6 h-6 bg-_light-gray rounded-md"></div>
+				<div className="w-20 h-6 bg-_light-gray rounded-md"></div>
+				<div className="w-6 h-6 bg-_light-gray rounded-md"></div>
 			</div>
 
 			<div className="relative h-[3px] w-full bg-_light-gray rounded">

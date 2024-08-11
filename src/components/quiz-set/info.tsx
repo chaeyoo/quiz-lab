@@ -60,9 +60,9 @@ export default function QuizSetInfo({ id }: { id: number }) {
 				<div>
 					{quizSet.quiz &&
 						quizSet.quiz.length > 0 &&
-						quizSet.quiz?.map((quiz) => (
+						quizSet.quiz?.map((quiz, idx) => (
 							<div
-								key={quiz.seq}
+								key={idx}
 								className="bg-_medium-gray p-5 my-3 rounded-xl"
 							>
 								<div className="flex justify-between">
