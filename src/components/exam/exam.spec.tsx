@@ -1,16 +1,8 @@
-import React from "react";
-import {
-	render,
-	screen,
-	fireEvent,
-	waitFor,
-	act,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Exam from "./exam";
 import useQuizSet from "../../hooks/useQuizSet";
-import userEvent from "@testing-library/user-event";
 
 jest.mock("../../hooks/useQuizSet");
 jest.mock("react-router-dom", () => ({
@@ -20,14 +12,11 @@ jest.mock("react-router-dom", () => ({
 
 const mockCorrect = jest.fn();
 const mockWrong = jest.fn();
+const mockClearQuiz = jest.fn();
 
+const mockUseAnsStore = jest.fn();
 jest.mock("../../store/useAnsStore", () => ({
-	useAnsStore: jest.fn((selector) =>
-		selector({
-			correct: mockCorrect,
-			wrong: mockWrong,
-		})
-	),
+	useAnsStore: (selector: any) => mockUseAnsStore(selector),
 }));
 
 const queryClient = new QueryClient();
@@ -64,8 +53,17 @@ describe("Exam Component", () => {
 			isLoading: false,
 			error: null,
 		});
-	});
 
+		mockUseAnsStore.mockImplementation((selector) =>
+			selector({
+				oQuiz: [],
+				xQuiz: [],
+				correct: mockCorrect,
+				wrong: mockWrong,
+				clearQuiz: mockClearQuiz,
+			})
+		);
+	});
 	test("renders exam component", () => {
 		renderComponent(1);
 		expect(screen.getByTestId("exam")).toBeInTheDocument();
@@ -92,4 +90,21 @@ describe("Exam Component", () => {
 		expect(screen.getByText("error")).toBeInTheDocument();
 	});
 
+	test("calls correct function when right answer is selected", async () => {
+		renderComponent(1);
+		fireEvent.click(screen.getByText("apple"));
+
+		await waitFor(() => {
+			expect(mockCorrect).toHaveBeenCalledWith(mockQuizSet.quiz[0]);
+		});
+	});
+
+	test("calls wrong function when wrong answer is selected", async () => {
+		renderComponent(1);
+		fireEvent.click(screen.getByText("banana"));
+
+		await waitFor(() => {
+			expect(mockWrong).toHaveBeenCalledWith(mockQuizSet.quiz[0]);
+		});
+	});
 });

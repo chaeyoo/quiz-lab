@@ -82,6 +82,7 @@ export default function Quizes({
 			{/* progress bar */}
 			<div className="relative h-[3px] w-full bg-_light-gray rounded">
 				<div
+					data-testId='progress-bar'
 					className="absolute h-full bg-_purple rounded transition-width duration-300 ease-in-out"
 					style={{ width: `${progress}%` }}
 				></div>
