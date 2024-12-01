@@ -17,7 +17,6 @@
 - Amplify
 
 ## DEMO 
-- [퀴즈랩](https://main.d3102voefpy56i.amplifyapp.com/) (모바일버전으로 브라우저 변경 후 보세요!)
 
 <img src="https://github.com/user-attachments/assets/b4048e28-b6c6-43b0-b483-04d1016f1903" width="300" height="500"/>
 <img src="https://github.com/user-attachments/assets/93b6efe0-ba5f-4df3-a90d-966c1fca6593" width="300" height="500"/>
